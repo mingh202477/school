@@ -6,15 +6,15 @@
 
 //加载信息
 //没设计容错，别tm乱删文件
-//A1变量部分 
-require __DIR__ . '/../sql/title.php';
-require __DIR__ . '/../sql/keywords.php';
-require __DIR__ . '/../sql/logo_1.php';
-require __DIR__ . '/../sql/logo_2.php';
-require __DIR__ . '/../sql/ico.php';
-require __DIR__ . '/../sql/icp.php';
-require __DIR__ . '/../sql/address.php';
-require __DIR__ . '/../sql/postal_code.php';
+//A1变量部分 //数据库config
+require __DIR__ . '/../app/models/title.php';
+require __DIR__ . '/../app/models/keywords.php';
+require __DIR__ . '/../app/models/logo_1.php';
+require __DIR__ . '/../app/models/logo_2.php';
+require __DIR__ . '/../app/models/ico.php';
+require __DIR__ . '/../app/models/icp.php';
+require __DIR__ . '/../app/models/address.php';
+require __DIR__ . '/../app/models/postal_code.php';
 
 //b1语言包加载
 require_once __DIR__ . '/public/lib/language/zh-CN.php';//zh-CN语言包
@@ -23,27 +23,29 @@ function e($str)
     return htmlspecialchars((string)$str, ENT_QUOTES, 'UTF-8');
 }
 
-//c1页面数据加载
+//c1页面数据加载 //单表数据库
 /*顶部链接*/
-require_once __DIR__ . '/../sql/top_links.php';
+require_once __DIR__ . '/../app/models/top_links.php';
 /*导航*/
-require_once __DIR__ . '/../sql/nav_links.php';
+require_once __DIR__ . '/../app/models/nav_links.php';
 /*Banner*/
-require_once __DIR__ . '/../sql/banner_imgs.php';
+require_once __DIR__ . '/../app/models/banner_imgs.php';
 /*校园要闻*/
-require_once __DIR__ . '/../sql/yaowen_list_q4.php';
+require_once __DIR__ . '/../app/models/yaowen_list_q4.php';//q4
 /*综合新闻*/
-require_once __DIR__ . '/../sql/index_news_q6.php';
+require_once __DIR__ . '/../app/models/index_news_q6.php';//q6
 /*学术交流*/
-require_once __DIR__ . '/../sql/xueshu_list_q4.php';
+require_once __DIR__ . '/../app/models/xueshu_list_q4.php';//q4
 /*媒体关注*/
-require_once __DIR__ . '/../sql/meiti_list_q4.php';
+require_once __DIR__ . '/../app/models/meiti_list_q4.php';//q4
 /*门户*/
-require_once __DIR__ . '/../sql/portal_cards.php';
+require_once __DIR__ . '/../app/models/portal_cards.php';
+
+$lang = 'zh-CN';//默认
 ?>
 
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="<?php echo e($lang); ?>">
 
 <head>
 
