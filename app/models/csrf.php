@@ -4,11 +4,17 @@
  * 会话级 Token，每 30 分钟自动轮换
  */
 
-// 自定义 Session Cookie 名称为 token，隐藏默认 PHPSESSID
-session_name('token');
-
-// 确保 session 已启动
+// 自定义 Session Cookie 名称为 token，隐藏默认 PHPSESSID。
+// Cookie 参数必须在 session_start() 前设置，否则对登录态无效。
 if (session_status() === PHP_SESSION_NONE) {
+    session_name('token');
+    session_set_cookie_params([
+        'lifetime' => 0,
+        'path' => '/',
+        'secure' => !empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off',
+        'httponly' => true,
+        'samesite' => 'Lax',
+    ]);
     session_start();
 }
 
