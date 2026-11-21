@@ -1,2 +1,5 @@
 .dockermysql/
 config/database.php
+.env
+config/mail.php
+vendor/

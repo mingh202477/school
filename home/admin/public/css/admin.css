@@ -1,0 +1,243 @@
+/* 经典高校/政务后台管理系统样式（兼容 IE8 ~ IE11 及现代浏览器） */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Microsoft YaHei", SimSun, sans-serif;
+    font-size: 13px;
+    color: #222;
+    background: #eef2f7;
+}
+
+a {
+    color: #16569a;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #0d3b6e;
+    text-decoration: underline;
+}
+
+/* 顶部深蓝系统栏 */
+.admin-topbar {
+    width: 100%;
+    background: #16569a;
+    color: #fff;
+    border: 0;
+}
+
+.admin-topbar td {
+    padding: 12px 18px;
+    color: #fff;
+    font-size: 14px;
+    border: 0;
+}
+
+.admin-topbar a {
+    color: #dbeafe;
+    margin: 0 4px;
+}
+
+.admin-topbar a:hover {
+    color: #fff;
+}
+
+/* 主体布局外框表 */
+.admin-layout {
+    width: 98%;
+    margin: 12px auto;
+    background: #fff;
+    border: 1px solid #b8c6d6;
+}
+
+/* 左侧导航栏 */
+.admin-sidebar {
+    width: 185px;
+    background: #f4f7fb;
+    border-right: 1px solid #b8c6d6;
+    padding: 12px 10px;
+}
+
+.admin-sidebar-title {
+    display: block;
+    padding: 6px 8px;
+    margin-bottom: 8px;
+    background: #dbe6f2;
+    color: #0e3f76;
+    font-size: 13px;
+    font-weight: bold;
+    border-left: 3px solid #16569a;
+}
+
+.admin-sidebar p {
+    margin: 4px 0;
+}
+
+.admin-sidebar a {
+    display: block;
+    padding: 8px 12px;
+    color: #2c3e50;
+    font-size: 13px;
+    border-bottom: 1px dashed #dce4ec;
+}
+
+.admin-sidebar a:hover,
+.admin-sidebar a.is-active {
+    background: #16569a;
+    color: #fff;
+    text-decoration: none;
+}
+
+/* 右侧工作区 */
+.admin-content {
+    padding: 16px 20px 24px;
+    background: #fff;
+}
+
+.admin-breadcrumb {
+    padding: 8px 12px;
+    margin-bottom: 14px;
+    background: #f5f8fc;
+    border: 1px solid #d5e0ec;
+    border-left: 3px solid #16569a;
+    color: #16569a;
+    font-weight: bold;
+}
+
+/* 业务数据表格 */
+table {
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.admin-content table {
+    border: 1px solid #b8c6d6;
+    background: #fff;
+}
+
+.admin-content th {
+    background: #e6eef7;
+    color: #1a365d;
+    font-weight: bold;
+    text-align: left;
+    padding: 8px 10px;
+    border: 1px solid #b8c6d6;
+    white-space: nowrap;
+}
+
+.admin-content td {
+    padding: 7px 10px;
+    border: 1px solid #cbd5e1;
+    color: #2d3748;
+}
+
+.admin-content tr:hover td {
+    background: #f8fafd;
+}
+
+/* 表单控件 */
+input[type="text"],
+input[type="password"],
+select,
+textarea {
+    font-family: "Microsoft YaHei", SimSun, sans-serif;
+    font-size: 13px;
+    border: 1px solid #9ab0c7;
+    padding: 4px 7px;
+    background: #fff;
+    color: #222;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+    border-color: #16569a;
+}
+
+input[type="submit"],
+input[type="button"],
+button {
+    font-family: "Microsoft YaHei", SimSun, sans-serif;
+    font-size: 12px;
+    padding: 4px 12px;
+    background: #16569a;
+    color: #fff;
+    border: 1px solid #0e3f76;
+    cursor: pointer;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover,
+button:hover {
+    background: #0e3f76;
+}
+
+/* 筛选工具栏与快捷表单面板 */
+.toolbar-box {
+    margin-bottom: 10px;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border: 1px solid #d5e0ec;
+}
+
+/* 消息提示框 */
+.msg-ok {
+    background: #ecfdf5;
+    border: 1px solid #34d399;
+    color: #065f46;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+.msg-err {
+    background: #fef2f2;
+    border: 1px solid #f87171;
+    color: #991b1b;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+/* 富文本编辑器 */
+.rte-toolbar {
+    background: #eef3f9 !important;
+    border: 1px solid #9ab0c7 !important;
+    border-bottom: 0 !important;
+    padding: 6px !important;
+}
+
+.rte-toolbar button {
+    background: #fff;
+    color: #222;
+    border: 1px solid #9ab0c7;
+    padding: 2px 7px;
+    margin-right: 3px;
+}
+
+.rte-toolbar button:hover {
+    background: #dbe6f2;
+    color: #0e3f76;
+}
+
+.rte-area {
+    width: 100%;
+    height: 260px;
+    border: 1px solid #9ab0c7;
+    padding: 8px;
+    overflow-y: scroll;
+    background: #fff;
+}
+
+/* 纯文本分页条 */
+.pager-bar {
+    margin-top: 12px;
+    padding: 6px 0;
+    font-size: 13px;
+}
+
+.pager-bar a,
+.pager-bar b {
+    margin-right: 6px;
+}

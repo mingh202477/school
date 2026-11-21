@@ -1,0 +1,29 @@
+{
+    "id": "countdown_banner",
+    "name": "校庆\/中考\/重大活动顶部倒计时横幅",
+    "version": "1.0.0",
+    "author": "Shaanxi Jimayun Education Innovation Studio",
+    "description": "在网站最顶部悬挂喜庆倒计时通栏横幅（如校庆倒计时、中考\/期末考试倒计时、运动会倒计时），自动计算剩余天数。",
+    "schema": {
+        "event_name": {
+            "label": "倒计时活动名称",
+            "type": "text",
+            "default": "东营区行知实验学校十周年校庆暨校园开放日"
+        },
+        "target_date": {
+            "label": "目标日期(YYYY-MM-DD)",
+            "type": "text",
+            "default": "2027-06-15"
+        },
+        "slogan": {
+            "label": "右侧宣传口号",
+            "type": "text",
+            "default": "潜心育桃李，当好引路人！"
+        },
+        "bg_color": {
+            "label": "横幅背景颜色",
+            "type": "color",
+            "default": "#b91c1c"
+        }
+    }
+}

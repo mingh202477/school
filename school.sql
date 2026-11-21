@@ -389,3 +389,82 @@ COMMIT;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+-- --------------------------------------------------------
+-- 统一身份认证数据表（零明文身份证，HMAC-SHA256 盲索引）
+-- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE `users` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户自增ID',
+  `username` varchar(64) NOT NULL COMMENT '学号/工号/管理员账号',
+  `real_name` varchar(64) DEFAULT NULL COMMENT '真实姓名',
+  `email` varchar(128) DEFAULT NULL COMMENT '绑定邮箱',
+  `id_card_type` varchar(32) NOT NULL DEFAULT '居民身份证' COMMENT '证件类型',
+  `id_card_hash` char(64) DEFAULT NULL COMMENT '身份证号 HMAC-SHA256 盲索引（不可逆）',
+  `id_card_mask` varchar(18) DEFAULT NULL COMMENT '身份证脱敏展示（如 3705************1X）',
+  `password_hash` varchar(255) NOT NULL COMMENT 'Argon2id 密码哈希',
+  `initial_password_hash` varchar(255) DEFAULT NULL COMMENT '初始密码(身份证后6位)Argon2id哈希，供后台一键重置',
+  `role` enum('admin','leader','teacher','student','alumni') NOT NULL DEFAULT 'student',
+  `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '状态：0未激活 1正常 2禁用',
+  `is_initial_pwd` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否仍为初始密码：1是 0否',
+  `security_question` varchar(128) DEFAULT NULL COMMENT '密保问题',
+  `security_answer_hash` varchar(255) DEFAULT NULL COMMENT '密保答案Argon2id哈希',
+  `last_login_at` datetime DEFAULT NULL COMMENT '最后登录时间',
+  `last_login_ip` varchar(45) DEFAULT NULL COMMENT '最后登录IP',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '创建时间',
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp() COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_users_username` (`username`),
+  UNIQUE KEY `uk_users_email` (`email`),
+  UNIQUE KEY `uk_users_id_card_hash` (`id_card_hash`),
+  KEY `idx_users_role_status` (`role`,`status`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='统一身份认证用户表';
+
+DROP TABLE IF EXISTS `auth_email_codes`;
+CREATE TABLE `auth_email_codes` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `email` varchar(128) NOT NULL COMMENT '接收验证码的邮箱',
+  `code_hash` varchar(255) NOT NULL COMMENT '验证码 HMAC-SHA256 摘要',
+  `scene` enum('login','reset_pwd','activate') NOT NULL DEFAULT 'login' COMMENT '业务场景：登录/重置密码/新生激活',
+  `is_used` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否已使用：0未使用 1已使用',
+  `request_ip` varchar(45) DEFAULT NULL COMMENT '请求方IP',
+  `expires_at` datetime NOT NULL COMMENT '过期时间',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '发送时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_email_scene_expires` (`email`,`scene`,`is_used`,`expires_at`),
+  KEY `idx_request_ip_created` (`request_ip`,`created_at`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='统一身份认证邮箱验证码表';
+
+DROP TABLE IF EXISTS `user_oauth_bindings`;
+CREATE TABLE `user_oauth_bindings` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `user_id` int(11) unsigned NOT NULL COMMENT '关联 users.id',
+  `provider` enum('github','google','apple') NOT NULL COMMENT '第三方平台标识',
+  `provider_uid` varchar(128) NOT NULL COMMENT '第三方平台唯一用户ID',
+  `provider_email` varchar(128) DEFAULT NULL COMMENT '第三方账号邮箱',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '绑定时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_provider_uid` (`provider`,`provider_uid`),
+  KEY `idx_oauth_user_id` (`user_id`),
+  CONSTRAINT `fk_oauth_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='统一身份认证第三方OAuth绑定表';
+
+DROP TABLE IF EXISTS `auth_login_logs`;
+CREATE TABLE `auth_login_logs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT COMMENT '自增主键',
+  `user_id` int(11) unsigned DEFAULT NULL COMMENT '关联 users.id（账号不存在时为NULL）',
+  `account_input` varchar(128) NOT NULL COMMENT '脱敏后的登录输入账号',
+  `login_type` enum('password','email_code','oauth') NOT NULL DEFAULT 'password' COMMENT '登录方式',
+  `ip_address` varchar(45) NOT NULL COMMENT '客户端IP',
+  `user_agent` varchar(255) DEFAULT NULL COMMENT '客户端浏览器标识',
+  `is_success` tinyint(1) NOT NULL DEFAULT 0 COMMENT '是否成功：1成功 0失败',
+  `fail_reason` varchar(100) DEFAULT NULL COMMENT '失败原因说明',
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp() COMMENT '登录时间',
+  PRIMARY KEY (`id`),
+  KEY `idx_logs_ip_time` (`ip_address`,`is_success`,`created_at`),
+  KEY `idx_logs_account_time` (`account_input`,`is_success`,`created_at`),
+  KEY `idx_logs_user_id` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='统一身份认证登录审计日志表';
+
+INSERT INTO `users` (`username`, `real_name`, `email`, `id_card_type`, `id_card_hash`, `id_card_mask`, `password_hash`, `initial_password_hash`, `role`, `status`, `is_initial_pwd`) VALUES ('admin', '系统管理员', 'admin@dyxz.edu.cn', '居民身份证', NULL, NULL, '$argon2id$v=19$m=65536,t=4,p=1$TFJCdzhnTVpBSzBjUDgvTg$tzOmQlWR2JuqeN92rrQS2T4Rpe4ij/YMm63mZrPtD1M', '$argon2id$v=19$m=65536,t=4,p=1$TFJCdzhnTVpBSzBjUDgvTg$tzOmQlWR2JuqeN92rrQS2T4Rpe4ij/YMm63mZrPtD1M', 'admin', 1, 0);

@@ -1,0 +1,14 @@
+{
+    "id": "mourning_gray",
+    "name": "全站一键黑白置灰（公祭日\/哀悼日模式）",
+    "version": "1.0.0",
+    "author": "Shaanxi Jimayun Education Innovation Studio",
+    "description": "学校与政务网站刚需插件：启用后全站（含兼容 IE8 滤镜与现代浏览器）立即切换为庄重黑白灰模式，停用后瞬间恢复彩色，无需改动任何网页源码。",
+    "schema": {
+        "gray_percent": {
+            "label": "置灰程度(1~100%)",
+            "type": "text",
+            "default": "100"
+        }
+    }
+}

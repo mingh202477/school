@@ -1,0 +1,29 @@
+{
+    "id": "float_window",
+    "name": "学校重要通知首页满屏飘窗",
+    "version": "1.0.0",
+    "author": "Shaanxi Jimayun Education Innovation Studio",
+    "description": "经典高校\/中小学首页满屏反弹漂浮通知小窗口（如招生简章、新生报到、寒暑假安全通知），鼠标移入自动暂停，右上角带关闭按钮。",
+    "schema": {
+        "title": {
+            "label": "飘窗大标题",
+            "type": "text",
+            "default": "【重要通知】2026年秋季新生入学报到须知"
+        },
+        "summary": {
+            "label": "飘窗正文说明",
+            "type": "text",
+            "default": "请全体新生尽快前往统一身份认证系统完成账号激活与安全邮箱绑定。"
+        },
+        "link_url": {
+            "label": "点击跳转链接",
+            "type": "text",
+            "default": "\/auth\/activate.php"
+        },
+        "bg_color": {
+            "label": "飘窗背景主题色",
+            "type": "color",
+            "default": "#16569a"
+        }
+    }
+}

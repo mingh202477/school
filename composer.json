@@ -1,0 +1,9 @@
+{
+    "require": {
+        "phpmailer/phpmailer": "^7.2",
+        "shuchkin/simplexlsx": "^1.1",
+        "shuchkin/simplexls": "^1.0",
+        "shuchkin/simplexlsxgen": "^1.5",
+        "hisamu/php-xbase": "^2.4"
+    }
+}

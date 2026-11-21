@@ -1,0 +1,19 @@
+{
+    "id": "copyright_guard",
+    "name": "网页防抄袭保护与复制自动加版权尾注",
+    "version": "1.0.0",
+    "author": "Shaanxi Jimayun Education Innovation Studio",
+    "description": "保护学校原创文章与通知图片：可开启禁止鼠标右键菜单、禁止拖拽保存图片，并在访客复制文字时自动在剪贴板末尾追加学校官方版权声明。",
+    "schema": {
+        "notice_text": {
+            "label": "复制追加版权声明",
+            "type": "text",
+            "default": "【转载请注明来源：东营区行知实验学校官方网站】"
+        },
+        "block_right": {
+            "label": "是否禁止鼠标右键(1是\/0否)",
+            "type": "text",
+            "default": "0"
+        }
+    }
+}

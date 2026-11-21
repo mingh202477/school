@@ -62,6 +62,13 @@ require __DIR__ . '/../app/models/postal_code.php';
 
 // 加载 CSRF 防护，提供 csrf_token() 和 csrf_verify() 函数
 require __DIR__ . '/../app/models/csrf.php';//CSRF防护
+require_once __DIR__ . '/../app/models/traffic.php';
+if (($_GET['action'] ?? '') === 'logout') {
+    session_destroy();
+    header('Location: index.php');
+    exit;
+}
+$traffic_stats = traffic_record_and_get_stats((string) ($_SERVER['REQUEST_URI'] ?? '/index.php'));
 
 // ============================================================
 // B1（旧版）语言包加载 —— 已废弃，改为下方按需动态按 Cookie 加载
@@ -159,20 +166,83 @@ if (isset($_COOKIE['lang']) && in_array($_COOKIE['lang'], $allowed_languages, tr
     $lang = $_COOKIE['lang'];
 } else {
     $lang = 'zh-CN';
+    $_COOKIE['lang'] = $lang;
     setcookie('lang', $lang, $cookie_options);
 }
 
-
-
-
-if (isset($_COOKIE['lang'])) {
-    $lang = $_COOKIE['lang'];
-    
-    if ($lang === 'en') {
-        require_once __DIR__ . '/public/lib/language/en.php';
-    } elseif ($lang === 'zh-CN') {
-        require_once __DIR__ . '/public/lib/language/zh-CN.php';
+require_once __DIR__ . '/../app/models/ai_translate.php';
+if ($lang === 'en') {
+    require_once __DIR__ . '/public/lib/language/en.php';
+    $title = ai_fallback_translate((string) $title);
+    foreach ($top_links as &$tl) {
+        $tl['orig_text'] = $tl['text'];
+        $tl['text'] = ai_fallback_translate((string) $tl['text']);
     }
+    unset($tl);
+    foreach ($nav_links as &$nl) {
+        $nl['text'] = ai_fallback_translate((string) $nl['text']);
+        if (!empty($nl['children']) && is_array($nl['children'])) {
+            foreach ($nl['children'] as &$ch) {
+                $ch['text'] = ai_fallback_translate((string) $ch['text']);
+            }
+            unset($ch);
+        }
+    }
+    unset($nl);
+    foreach ($banner_imgs as &$bi) {
+        $bi['title'] = ai_fallback_translate((string) $bi['title']);
+    }
+    unset($bi);
+    foreach ($yaowen_list as &$yw) {
+        $yw['title'] = !empty($yw['title_en']) ? $yw['title_en'] : ai_fallback_translate((string) $yw['title']);
+        $yw['desc']  = !empty($yw['desc_en'])  ? $yw['desc_en']  : ai_fallback_translate((string) $yw['desc']);
+        if (!empty($yw['link_en'])) {
+            $yw['link'] = $yw['link_en'];
+        } elseif (!empty($yw['link']) && $yw['link'] !== '#') {
+            $yw['link'] = ai_make_en_url((string) $yw['link']);
+        }
+    }
+    unset($yw);
+    foreach ($xinwen_list as &$xw) {
+        $xw['title'] = !empty($xw['title_en']) ? $xw['title_en'] : ai_fallback_translate((string) $xw['title']);
+        if (!empty($xw['link_en'])) {
+            $xw['link'] = $xw['link_en'];
+        } elseif (!empty($xw['link']) && $xw['link'] !== '#') {
+            $xw['link'] = ai_make_en_url((string) $xw['link']);
+        }
+    }
+    unset($xw);
+    foreach ($xueshu_list as &$xs) {
+        $xs['title'] = !empty($xs['title_en']) ? $xs['title_en'] : ai_fallback_translate((string) $xs['title']);
+        if (!empty($xs['link_en'])) {
+            $xs['link'] = $xs['link_en'];
+        } elseif (!empty($xs['link']) && $xs['link'] !== '#') {
+            $xs['link'] = ai_make_en_url((string) $xs['link']);
+        }
+    }
+    unset($xs);
+    foreach ($meiti_list as &$mt) {
+        $mt['title'] = !empty($mt['title_en']) ? $mt['title_en'] : ai_fallback_translate((string) $mt['title']);
+        if (!empty($mt['link_en'])) {
+            $mt['link'] = $mt['link_en'];
+        } elseif (!empty($mt['link']) && $mt['link'] !== '#') {
+            $mt['link'] = ai_make_en_url((string) $mt['link']);
+        }
+    }
+    unset($mt);
+    foreach ($portal_cards as &$pc) {
+        $pc['orig_title'] = $pc['title'];
+        $pc['title'] = ai_fallback_translate((string) $pc['title']);
+        if (!empty($pc['desc']) && is_array($pc['desc'])) {
+            foreach ($pc['desc'] as &$dItem) {
+                $dItem = ai_fallback_translate((string) $dItem);
+            }
+            unset($dItem);
+        }
+    }
+    unset($pc);
+} else {
+    require_once __DIR__ . '/public/lib/language/zh-CN.php';
 }
 ?>
 <!-- ===== PHP 逻辑结束，以下为 HTML 模板 ===== -->
@@ -423,7 +493,7 @@ if (isset($_COOKIE['lang'])) {
 
         <?php foreach ($portal_cards as $card): ?>
 
-            <a href="#"
+            <a href="<?php echo (($card['orig_title'] ?? $card['title']) === '数字校园') ? (isset($_SESSION['auth_role']) && $_SESSION['auth_role'] === 'admin' ? 'admin/dashboard.php' : 'auth/login.php') : '#'; ?>"
                class="portal-card <?php echo e($card['class']); ?>">
 
                 <div class="portal-inner">

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>测试 - 东营区行知实验学校</title>
+    <link rel="icon" href="/dyxz.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/public/css/index.css">
+    <link rel="stylesheet" href="/public/css/article.css">
+</head>
+<body>
+
+<!-- 顶部导航条（与首页风格一致） -->
+<div class="top-bar">
+    <div class="wrap">
+        <div class="top-links">
+            <a href="/index.php">网站首页</a>
+            <a href="/auth/login.php">统一身份认证</a>
+            <a href="/mailbox.php?type=shuji">书记信箱</a>
+            <a href="/mailbox.php?type=xiaozhang">校长信箱</a>
+        </div>
+        <div class="top-extra">
+            <a href="/yaowen/20261116234634-522_en.html" class="lang-switch-pill">English Version</a>
+        </div>
+    </div>
+</div>
+
+<!-- 学校品牌头部 -->
+<header class="header">
+    <div class="wrap">
+        <a href="/index.php" class="logo">
+            <img src="/public/images/logo2.png" alt="东营区行知实验学校">
+        </a>
+        <div class="article-header-channel">
+            <span>校园要闻</span>
+        </div>
+    </div>
+</header>
+
+<!-- 面包屑导航 -->
+<div class="article-breadcrumb-bar">
+    <div class="wrap">
+        <a href="/index.php">网站首页</a>
+        <span class="sep">&gt;</span>
+        <span>校园要闻</span>
+        <span class="sep">&gt;</span>
+        <span class="curr">测试</span>
+    </div>
+</div>
+
+<!-- 文章主体容器 -->
+<main class="wrap article-main-wrap">
+    <article class="article-paper">
+        <header class="article-head">
+            <h1 class="article-title">测试</h1>
+            <div class="article-meta">
+                <span><b>发布日期：</b>2026-11-16</span>
+                <span class="meta-div">|</span>
+                <span><b>来源：</b>校办</span>
+                <span class="meta-div">|</span>
+                <span><b>作者：</b>系统管理员</span>
+                <span class="meta-div">|</span>
+                <span class="font-resizer">
+                    字号：[
+                    <a href="javascript:void(0)" onclick="setArtFontSize(18)">大</a>
+                    <a href="javascript:void(0)" onclick="setArtFontSize(16)">中</a>
+                    <a href="javascript:void(0)" onclick="setArtFontSize(14)">小</a>
+                    ]
+                </span>
+                <span class="meta-div">|</span>
+                <a href="/yaowen/20261116234634-522_en.html" class="meta-lang-link">[English Version]</a>
+            </div>
+        </header>
+
+        <div class="article-body" id="articleBodyContent">
+            <p>测试</p>
+        </div>
+
+        <footer class="article-foot">
+            <a href="/index.php" class="art-btn art-btn--primary">&laquo; 返回学校首页</a>
+            <a href="/yaowen/20261116234634-522_en.html" class="art-btn">English Version</a>
+            <a href="javascript:window.print()" class="art-btn">打印本页</a>
+        </footer>
+    </article>
+</main>
+
+<!-- 页脚（与首页一致） -->
+<footer>
+    <div class="wrap footer-content">
+        <img src="/public/images/logo2.png" alt="" class="footer-logo">
+        <div class="footer-text">
+            <p>Postal Code / 邮编：邮编号码 &nbsp;|&nbsp; Address / 地址：地址</p>
+            <p>Copyright © 东营区行知实验学校</p>
+        </div>
+    </div>
+</footer>
+
+<script type="text/javascript">
+    function setArtFontSize(px) {
+        var el = document.getElementById('articleBodyContent');
+        if (el) el.style.fontSize = px + 'px';
+    }
+</script>
+</body>
+</html>

@@ -1,18 +1,16 @@
 <?php
-//index_news_q6.php
-//date:26/5/22(0.0.1)
-//index.php中被引入，获取最新的6条新闻数据
-require_once __DIR__ . '/../../app/models/pdo.php';
-$sql = "SELECT `title`, `date`, `url` FROM `news` ORDER BY `date` DESC LIMIT 6";
+require_once __DIR__ . '/../../app/models/ai_translate.php';
+ai_ensure_schema();
+$sql = "SELECT `title`, `title_en`, `date`, `url`, `url_en` FROM `news` ORDER BY `id` DESC LIMIT 6";
 $stmt = $pdo->query($sql);
 
 $xinwen_list = [];
 while ($row = $stmt->fetch()) {
     $xinwen_list[] = [
-        'title' => $row['title'],
-        'date'  => $row['date'],   
-        'link'  => $row['url'], 
+        'title'    => $row['title'],
+        'title_en' => $row['title_en'] ?? '',
+        'date'     => $row['date'],
+        'link'     => $row['url'],
+        'link_en'  => $row['url_en'] ?? '',
     ];
 }
-
-?>
